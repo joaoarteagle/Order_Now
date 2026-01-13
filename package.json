@@ -1,5 +1,6 @@
 {
   "name": "order_now",
+  "homepage": "order_Now",
   "private": true,
   "version": "0.0.0",
   "type": "module",
