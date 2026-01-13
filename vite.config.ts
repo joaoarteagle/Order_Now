@@ -6,4 +6,9 @@ export default defineConfig({
   plugins: [react(), 
             tailwindcss()
           ],
+  base: '/Order_Now/',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  },
 })
