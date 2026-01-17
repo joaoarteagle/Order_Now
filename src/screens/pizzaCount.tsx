@@ -46,22 +46,22 @@ function PizzaCount() {
         window.addEventListener('storage', checkValues);
         
         // // Interval para verificar mudanças (para caso o storage mude na mesma aba)
-        // const interval = setInterval(checkValues, 1000);
+        const interval = setInterval(checkValues);
 
         return () => {
             window.removeEventListener('storage', checkValues);
-            // clearInterval(interval);
+            clearInterval(interval);
         };
     }, []);
 
-    const startCounting = () => {
-        localStorage.setItem("GRANDE", "0");
-        localStorage.setItem("MÉDIA", "0");
-        localStorage.setItem("BROTINHO", "0");
-        localStorage.setItem("METRO", "0");
-        location.reload();
-        setStarted(true);
-    }
+    // const startCounting = () => {
+    //     localStorage.setItem("GRANDE", "0");
+    //     localStorage.setItem("MÉDIA", "0");
+    //     localStorage.setItem("BROTINHO", "0");
+    //     localStorage.setItem("METRO", "0");
+    //     location.reload();
+    //     setStarted(true);
+    // }
     return <>
      <div className="flex flex-col items-center h-screen"  > 
     <a href="/Order_Now/" className="flex w-full p-3">Home</a>

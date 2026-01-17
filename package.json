@@ -1,6 +1,6 @@
 {
   "name": "order_now",
-  "homepage": "Order_Now",
+  "homepage": "https://joaoarteagle.github.io/Order_Now",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,10 +12,8 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
-    "@types/react-router-dom": "^5.3.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.12.0",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {

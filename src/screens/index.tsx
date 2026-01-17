@@ -1,8 +1,8 @@
     export default function HomePage() {
-    const salesData = localStorage.getItem("salesData")
-        ? JSON.parse(localStorage.getItem("salesData")!)
-        : {};
-    const data = JSON.stringify(salesData);
+    // const salesData = localStorage.getItem("salesData")
+    //     ? JSON.parse(localStorage.getItem("salesData")!)
+    //     : {};
+    // const data = JSON.stringify(salesData);
     return (
         <div className="flex flex-col items-center h-screen bg-gray-900 text-white"  >
         <div className="flex flex-col gap-5 m-10">
