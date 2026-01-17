@@ -1,15 +1,15 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './screens';
 import PizzaCount from './screens/pizzaCount';
 
 function App() {
   return (
-    <BrowserRouter basename='/Order_Now/'>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/pizzaCount" element={<PizzaCount />} />
+        <Route path="/PizzaCount" element={<PizzaCount />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
