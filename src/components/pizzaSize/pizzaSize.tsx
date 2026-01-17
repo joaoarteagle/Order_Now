@@ -17,11 +17,11 @@ function PizzaSize({size}: {size: string}) {
      const incrementCount = () => setCount(count + 1);
     const decrementCount = () => setCount(Math.max(0, count - 1)); // Evita valores negativos
 
-    return <div className="flex flex-row justify-between items-center mx-1 gap-5">
+    return <div className="flex flex-row justify-between items-center mx-1 gap-1">
        <h2 className="font-semibold flex align-center justify-center text-[25px]">{size.toUpperCase()}:</h2>
-       <div className="flex gap-2 items-center">
+       <div className="flex items-center">
         <MinusButton onClick={decrementCount} /> 
-            <p className="text-[60px]">{count}</p>
+            <p className="text-[60px] w-20">{count}</p>
         <PlusButton onClick={incrementCount} /> </div>
         </div>;
 }
