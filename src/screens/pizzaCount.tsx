@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PizzaSize from "../components/pizzaSize/pizzaSize";
 import type { SalesData } from "../interfaces/data";
+import { Link } from "react-router-dom";
 
 
 function PizzaCount() {
@@ -64,7 +65,7 @@ function PizzaCount() {
     // }
     return <>
      <div className="flex flex-col items-center h-screen"  > 
-    <a href="/Order_Now/" className="flex w-full p-3">Home</a>
+    <Link to={'/'} className="flex w-full p-3">Home</Link>
     <div>
     <p className="text-[35px] font-extralight my-20">PIZZA COUNT 🍕</p>
     </div>
