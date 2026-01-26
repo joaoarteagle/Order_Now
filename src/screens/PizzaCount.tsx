@@ -4,6 +4,7 @@ import type { SalesData } from "../interfaces/data";
 import { Link } from "react-router-dom";
 
 
+
 function PizzaCount() {
     const [started, setStarted] = useState(false);
     const pizzaSize = ["GRANDE", "MÉDIA", "BROTINHO", "METRO"];
@@ -21,6 +22,7 @@ function PizzaCount() {
         
         localStorage.setItem("salesData", JSON.stringify(salesData));
         setStarted(false);
+        startCounting();
     }
 
   useEffect(() => {
@@ -55,26 +57,26 @@ function PizzaCount() {
         };
     }, []);
 
-    // const startCounting = () => {
-    //     localStorage.setItem("GRANDE", "0");
-    //     localStorage.setItem("MÉDIA", "0");
-    //     localStorage.setItem("BROTINHO", "0");
-    //     localStorage.setItem("METRO", "0");
-    //     location.reload();
-    //     setStarted(true);
-    // }
+    const startCounting = () => {
+        localStorage.setItem("GRANDE", "0");
+        localStorage.setItem("MÉDIA", "0");
+        localStorage.setItem("BROTINHO", "0");
+        localStorage.setItem("METRO", "0");
+        location.reload();
+        setStarted(true);
+    }
     return <>
      <div className="flex flex-col items-center h-screen"  > 
-    <Link to={'/'} className="flex w-full p-3">Home</Link>
+    <Link to={'/'} className="flex w-full p-3">← Home</Link>
     <div>
-    <p className="text-[35px] font-extralight my-20">PIZZA COUNT 🍕</p>
+    <p className="text-[35px] font-extralight my-20">CONTABILIZADOR</p>
     </div>
     
     <div className="flex flex-col gap-5">
         {pizzaSize.map((size) => (<PizzaSize size={size} />))}
     </div>
 
-    <div>
+    <div className="mt-10">
         { started && ( 
             <button onClick={stopCounting}>Finalizar Lançamentos</button>
         )}
