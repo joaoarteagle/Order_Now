@@ -23,11 +23,11 @@ import { Link } from "react-router-dom";
                 </div>
             </Link>
 
-            {/* <Link to="/Revenue">
+            <Link to="/Revenue">
             <div className="flex m-5 p-2 bg-gray-800 w-auto h-15 justify-center items-center rounded-lg hover:bg-gray-700">
                 <h2>Faturamento Atual</h2>
             </div>
-            </Link> */}
+            </Link>
         </div>
         </div>
     );
