@@ -14,6 +14,14 @@ export default function SalesHistory() {
         G: 0, M: 0, B: 0, METRO: 0
     });
 
+    // Estados para criação de novo lançamento
+    const [creatingNew, setCreatingNew] = useState(false);
+    const [newDate, setNewDate] = useState('');
+    const [newForm, setNewForm] = useState<PizzaSales>({
+        G: 0, M: 0, B: 0, METRO: 0
+    });
+    const [dateError, setDateError] = useState('');
+
     // Atualiza localStorage sempre que salesData mudar
     const updateLocalStorage = (newData: SalesData) => {
         localStorage.setItem("salesData", JSON.stringify(newData));
@@ -69,10 +77,70 @@ export default function SalesHistory() {
         }
     };
 
-    // Função para atualizar campo do formulário
+    // Função para atualizar campo do formulário de edição
     const updateField = (field: keyof PizzaSales, value: string) => {
         const numValue = Math.max(0, parseInt(value) || 0);
         setEditForm(prev => ({ ...prev, [field]: numValue }));
+    };
+
+    // Função para formatar data do input para dd/mm/YYYY
+    const formatDateForDisplay = (dateString: string) => {
+        if (!dateString) return '';
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    };
+
+    // Função para validar data
+    const validateDate = (dateString: string) => {
+        if (!dateString) {
+            setDateError('Data é obrigatória');
+            return false;
+        }
+
+        const formattedDate = formatDateForDisplay(dateString);
+        
+        if (salesData[formattedDate]) {
+            setDateError('Já existe um lançamento para esta data');
+            return false;
+        }
+
+        setDateError('');
+        return true;
+    };
+
+    // Função para iniciar criação de novo lançamento
+    const startNewEntry = () => {
+        setCreatingNew(true);
+        setNewDate('');
+        setNewForm({ G: 0, M: 0, B: 0, METRO: 0 });
+        setDateError('');
+    };
+
+    // Função para cancelar criação
+    const cancelNewEntry = () => {
+        setCreatingNew(false);
+        setNewDate('');
+        setNewForm({ G: 0, M: 0, B: 0, METRO: 0 });
+        setDateError('');
+    };
+
+    // Função para salvar novo lançamento
+    const saveNewEntry = () => {
+        if (validateDate(newDate)) {
+            const formattedDate = formatDateForDisplay(newDate);
+            const newData = {
+                ...salesData,
+                [formattedDate]: newForm
+            };
+            updateLocalStorage(newData);
+            cancelNewEntry();
+        }
+    };
+
+    // Função para atualizar campo do formulário de novo lançamento
+    const updateNewField = (field: keyof PizzaSales, value: string) => {
+        const numValue = Math.max(0, parseInt(value) || 0);
+        setNewForm(prev => ({ ...prev, [field]: numValue }));
     };
 
     return <>
@@ -86,6 +154,114 @@ export default function SalesHistory() {
                 <p className="text-xl text-gray-400">Total Geral: {grandTotal} pizzas</p>
             </div>
 
+            {/* Botão para novo lançamento */}
+            <div className="mb-6 w-full max-w-4xl">
+                {!creatingNew ? (
+                    <button 
+                        onClick={startNewEntry}
+                        className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold text-lg"
+                    >
+                        ➕ Novo Lançamento
+                    </button>
+                ) : (
+                    <div className="bg-gray-800 rounded-lg p-6 shadow-lg border-2 border-green-600">
+                        <h3 className="text-xl font-semibold mb-4 text-center text-green-400">
+                            Novo Lançamento
+                        </h3>
+                        
+                        {/* Input de data */}
+                        <div className="mb-4">
+                            <label className="block text-sm text-gray-400 mb-2">
+                                Data do Lançamento:
+                            </label>
+                            <input 
+                                type="date" 
+                                value={newDate}
+                                onChange={(e) => {
+                                    setNewDate(e.target.value);
+                                    if (e.target.value) validateDate(e.target.value);
+                                }}
+                                className="w-full p-3 bg-gray-700 text-white rounded border border-gray-600 focus:border-green-500"
+                            />
+                            {dateError && (
+                                <p className="text-red-400 text-sm mt-1">{dateError}</p>
+                            )}
+                        </div>
+
+                        {/* Inputs de quantidades */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                            <div className="text-center">
+                                <p className="text-sm text-gray-400 mb-1">Grande</p>
+                                <input 
+                                    type="number" 
+                                    value={newForm.G}
+                                    onChange={(e) => updateNewField('G', e.target.value)}
+                                    className="w-full p-2 bg-gray-700 text-white rounded text-center"
+                                    min="0"
+                                    placeholder="0"
+                                />
+                            </div>
+                            <div className="text-center">
+                                <p className="text-sm text-gray-400 mb-1">Média</p>
+                                <input 
+                                    type="number" 
+                                    value={newForm.M}
+                                    onChange={(e) => updateNewField('M', e.target.value)}
+                                    className="w-full p-2 bg-gray-700 text-white rounded text-center"
+                                    min="0"
+                                    placeholder="0"
+                                />
+                            </div>
+                            <div className="text-center">
+                                <p className="text-sm text-gray-400 mb-1">Broto</p>
+                                <input 
+                                    type="number" 
+                                    value={newForm.B}
+                                    onChange={(e) => updateNewField('B', e.target.value)}
+                                    className="w-full p-2 bg-gray-700 text-white rounded text-center"
+                                    min="0"
+                                    placeholder="0"
+                                />
+                            </div>
+                            <div className="text-center">
+                                <p className="text-sm text-gray-400 mb-1">Metro</p>
+                                <input 
+                                    type="number" 
+                                    value={newForm.METRO}
+                                    onChange={(e) => updateNewField('METRO', e.target.value)}
+                                    className="w-full p-2 bg-gray-700 text-white rounded text-center"
+                                    min="0"
+                                    placeholder="0"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Preview do total */}
+                        <div className="text-center mb-4 p-2 bg-gray-700 rounded">
+                            <p className="text-gray-400">Total: {calculateTotal(newForm)} pizzas</p>
+                        </div>
+
+                        {/* Botões de ação */}
+                        <div className="flex gap-2 justify-center">
+                            <button 
+                                onClick={saveNewEntry}
+                                disabled={!!dateError || !newDate}
+                                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed"
+                            >
+                                ✅ Salvar Lançamento
+                            </button>
+                            <button 
+                                onClick={cancelNewEntry}
+                                className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                            >
+                                ❌ Cancelar
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Lista de registros existentes */}
             <div className="flex flex-col gap-4 w-full max-w-4xl">
                 {salesEntries.length === 0 ? (
                     <p className="text-center text-gray-500 text-lg">Nenhum dado de vendas encontrado</p>
@@ -95,7 +271,7 @@ export default function SalesHistory() {
                             <div className="flex justify-between items-center mb-3 border-b border-gray-600 pb-2">
                                 <h3 className="text-xl font-semibold">{date}</h3>
                                 
-                                {editingDate !== date && (
+                                {editingDate !== date && !creatingNew && (
                                     <div className="flex gap-2">
                                         <button 
                                             onClick={() => startEdit(date, sales)}
@@ -107,14 +283,14 @@ export default function SalesHistory() {
                                             onClick={() => deleteRecord(date)}
                                             className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
                                         >
-                                            ❌
+                                           ❌
                                         </button>
                                     </div>
                                 )}
                             </div>
                             
                             {editingDate === date ? (
-                                // editando registro
+                                // Modo de edição
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                         <div className="text-center">
@@ -179,7 +355,7 @@ export default function SalesHistory() {
                                     </div>
                                 </div>
                             ) : (
-                
+                                // Modo de visualização
                                 <>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                         <div className="text-center">
