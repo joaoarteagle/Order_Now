@@ -71,7 +71,7 @@ export default function Revenue() {
     };
 
     return <>
-        <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white p-4">
+        <div className="flex flex-col items-center min-h-screen w-screen bg-gray-900 text-white p-4">
             <Link to={'/'} className="flex w-full p-3 text-blue-400 hover:text-blue-300">
                 ← Home
             </Link>
